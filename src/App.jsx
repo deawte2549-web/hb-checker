@@ -15,27 +15,51 @@ function checkAll() {
   const plateletNum = Number(platelet)
   const list = []
 
+  // ตรวจสอบว่ากรอกค่าอย่างน้อย 1 ช่อง
+  if (!hbNum && !wbcNum && !plateletNum) {
+    setResult([{ name: 'แจ้งเตือน', status: 'กรุณากรอกค่าอย่างน้อย 1 ช่อง', ok: false}])
+    return
+  }
+
+
 
   //เช็ค hb
   const hbMin = gender === 'male' ? 13 : 12
   const hbMax = gender === 'male' ? 17 : 16
   if (hbNum) {
-    if(hbNum < hbMin) list.push({ name: 'Hb', status: 'ต่ำกว่าปกติ', ok: false})
-    else if (hbNum > hbMax) list.push({ name: 'Hb', status: 'สูงกว่าปกติ', ok: false})
-    else list.push({ name: 'Hb', status: 'ปกติ', ok:true })
+    if(hbNum < 0 || hbNum > 25){ 
+    list.push({ name: 'Hb', status: 'ค่าไม่สมเหตุสมผล (0-25 เท่านั้น)', ok: false})
+    }else if (hbNum < hbMin){
+      list.push({ name: 'Hb', status: 'ต่ำกว่าปกติ', ok: false})
+    }else if (hbNum > hbMax){
+       list.push({ name: 'Hb', status: 'สูงกว่าปกติ', ok: false})
+    }else list.push({ name: 'Hb', status: 'ปกติ', ok:true })
   }
 
   //เช็ค wbc
-  if (wbcNum) {
-    if (wbcNum < 4500) list.push({ name: 'wbc',status: 'ต่ำกว่าปกติ', ok:false})
-    else if(wbcNum > 11000) list.push({ name: 'wbc',status: 'สูงกว่าปกติ', ok: false})
-    else list.push({ name: 'wbc', status: 'ปกติ', ok:true })
-  }
- if (plateletNum) {
-      if (plateletNum < 150000) list.push({ name: 'Platelet', status: 'ต่ำกว่าปกติ', ok: false })
-      else if (plateletNum > 400000) list.push({ name: 'Platelet', status: 'สูงกว่าปกติ', ok: false })
-      else list.push({ name: 'Platelet', status: 'ปกติ', ok: true })
+ if (wbcNum) {
+    if (wbcNum < 0 || wbcNum > 100000) {
+      list.push({ name: 'WBC', status: 'ค่าไม่สมเหตุสมผล (0-100000 เท่านั้น)', ok: false })
+    } else if (wbcNum < 4500) {
+      list.push({ name: 'WBC', status: 'ต่ำกว่าปกติ', ok: false })
+    } else if (wbcNum > 11000) {
+      list.push({ name: 'WBC', status: 'สูงกว่าปกติ', ok: false })
+    } else {
+      list.push({ name: 'WBC', status: 'ปกติ', ok: true })
     }
+  }
+   // เช็ค Platelet
+  if (plateletNum) {
+    if (plateletNum < 0 || plateletNum > 1000000) {
+      list.push({ name: 'Platelet', status: 'ค่าไม่สมเหตุสมผล (0-1000000 เท่านั้น)', ok: false })
+    } else if (plateletNum < 150000) {
+      list.push({ name: 'Platelet', status: 'ต่ำกว่าปกติ', ok: false })
+    } else if (plateletNum > 400000) {
+      list.push({ name: 'Platelet', status: 'สูงกว่าปกติ', ok: false })
+    } else {
+      list.push({ name: 'Platelet', status: 'ปกติ', ok: true })
+    }
+  }
 setResult(list)
 
 } 
