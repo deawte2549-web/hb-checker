@@ -68,20 +68,48 @@ setResult(list)
     <div className='card'>
       <h1>ตรวจสอบค่าเลือด CBC</h1>
 
-      <select onChange={(e) => setGender(e.target.value)}>
-        <option value="male">ชาย</option>
-        <option value="female">หญิง</option>
-      </select>
+      <div className="input-group">
+        <label>เพศ</label>
+        <select onChange={(e) => setGender(e.target.value)}>
+          <option value={"male"}>ชาย</option>
+          <option value={"female"}>หญิง</option>
+        </select>
+      </div>
 
-      <input type="number" placeholder="Hb (g/dL)" onChange={(e) => setHb(e.target.value)} />
-      <input type="number" placeholder="WBC (เซลล์/ไมโครลิตร" onChange={(e) => setWbc(e.target.value)} />
-      <input type="number" placeholder="Platelet (เซลล์/ไมโครลิตร)" onChange={(e) => setPlatelet(e.target.value)} />
+      <div className="input-group">
+        <label>Hemoglobin (g/dl)</label>
+        <input
+          type="number"
+          placeholder="ค่าปกติ ชาย 13-17 หญิง 12-16"
+          onChange={(e) => setHb(e.target.value)}
+        />
+      </div>
 
+      <div className="input-group">
+      <label>WBC (เซลล์/ไมโครลิตร)</label>
+      <input
+        type="number"
+        placeholder="ค่าปกติ 4,500-11,000"
+        onChange={(e) => setWbc(e.target.value)}
+      />  
+    </div>
+
+      <div className="input-group">
+        <label>Platelet (เซลล์/ไมโครลิตร)</label>
+        <input
+        type="number"
+        placeholder="ค่าปกติ 150,000-400,000"
+        onChange={(e) => setPlatelet(e.target.value)}
+        />
+      </div>
+     
       <button onClick={checkAll}>ตรวจสอบ</button>
+     
       {result.map((r, i) => (
-      <p key={i} className="result" style={{ color: r.ok ? 'green' : 'red'}}>
-        {r.name}: {r.status}
-      </p>
+        <div key={i} className={`result-card ${r.ok ? 'ok' : 'not-ok'}`}>
+          <span className="result-icon">{r.ok ? '✓' : '✗'}</span>
+          <span className="result-text">{r.name}: {r.status}</span>
+        </div>
       ))}
     </div>
   )
